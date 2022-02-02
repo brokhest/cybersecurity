@@ -108,11 +108,11 @@ https://app.hackthebox.com/challenges/infiltration
 
 ![alt text](img/O1_3.png)
 
-![alt text](img/O1_4.png)
+![alt text](img/O1_4.jpg)
 
 Увидев здесь уже несколько ключей, я решил продолжить рассматривать картинки, и наткнулся на следующую:
 
-![alt text](img/O1_5.png)
+![alt text](img/O1_5.jpg)
 
 Если рассмотреть её внимательно, то на бейдже написан флаг, который и является искомым флагом.
 
@@ -140,7 +140,7 @@ https://app.hackthebox.com/challenges/money-flowz
 
 Во втором посте упоминается схема, работающая на ropsten.net и номер кошелька
 
-![alt text](img/scam.png)
+![alt text](img/Scam.png)
 
 Загуглив Ropsten.net, я нашёл следующее:
 
