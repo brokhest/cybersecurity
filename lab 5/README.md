@@ -140,7 +140,7 @@ https://app.hackthebox.com/challenges/money-flowz
 
 Во втором посте упоминается схема, работающая на ropsten.net и номер кошелька
 
-![alt text](img/Scam.png)
+![alt text](img/Scam.PNG)
 
 Загуглив Ropsten.net, я нашёл следующее:
 
