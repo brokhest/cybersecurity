@@ -19,3 +19,18 @@ sudo nano /etc/squid/squid.conf
 Переходим до строчки include /etc/squid/conf.d/*
 и дописываем следующую информацию:
 ![](screens/1.png)
+
+Сохраняем файл, выходим
+
+# Установка Apache
+
+sudo apt install apache2-utils
+sudo htpasswd -c /etc/squid/passwords *username*
+
+и запускаем сервер
+
+sudo systemctl start squid
+sudo systemctl enable squid
+sudo ufw allow 3128 (порт squid)
+
+
