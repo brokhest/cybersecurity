@@ -17,7 +17,9 @@ sudo apt install squid
 sudo nano /etc/squid/squid.conf
 
 Переходим до строчки include /etc/squid/conf.d/*
+
 и дописываем следующую информацию:
+
 ![](screens/1.png)
 
 Сохраняем файл, выходим
@@ -25,12 +27,15 @@ sudo nano /etc/squid/squid.conf
 # Установка Apache
 
 sudo apt install apache2-utils
+
 sudo htpasswd -c /etc/squid/passwords *username*
 
 и запускаем сервер
 
 sudo systemctl start squid
+
 sudo systemctl enable squid
+
 sudo ufw allow 3128 (порт squid)
 
 Проверка Proxy:
@@ -42,11 +47,13 @@ sudo ufw allow 3128 (порт squid)
 # Установка elasticsearch
 
 Переходим на вм ELK
+
 Проводим стандартные sudo apt update/upgrade
 
 Устанавливаем java
 
 sudo apt install default-jre
+
 sudo apt install default-jdk
 
 Переходим к самому elasticsearch
@@ -72,6 +79,7 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 Вписываем следующие строки:
 
 ![](screens/5.png)
+
 ![](screens/6.png)
 
 Создаём пользователей:
@@ -83,6 +91,7 @@ sudo -u root /usr/share/elasticsearch/bin/elasticsearch-setup-passwords auto
 Запускаем:
 
 sudo systemctl start elasticsearch
+
 sudo systemctl enable elasticsearch
 
 # Уустановка Kibana
@@ -98,16 +107,19 @@ sudo nano /etc/kibana/kibana.yml
 раскоменчиваем эти строки 
 
 ![](screens/7.png)
+
 ![](screens/8.png)
 
 Добавляем пароль (полученный ранее)
 
 sudo -u root /usr/share/kibana/bin/kibana-keystore create
+
 sudo -u root /usr/share/kibana/bin/kibana-keystore add elasticsearch.password
 
 И запускаем 
 
 sudo systemctl start kibana
+
 sudo systemctl enable kibana
 
 # Установка Logstash
@@ -141,5 +153,6 @@ sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash 
 Запускаем:
 
 sudo systemctl start logstash
+
 sudo systemctl enable logstash
 
