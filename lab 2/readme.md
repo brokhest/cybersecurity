@@ -18,4 +18,4 @@ sudo nano /etc/squid/squid.conf
 
 Переходим до строчки include /etc/squid/conf.d/*
 и дописываем следующую информацию:
-!(screens/1.png)
+![](screens/1.png)
