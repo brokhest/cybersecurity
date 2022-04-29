@@ -130,19 +130,25 @@ sudo apt install logstash
 
 Переходим в конфиг файл:
 
-sudo nano /etc/logstash/conf.d/02-beats-input.conf
+sudo nano /etc/logstash/conf.d/logstash.conf
 
 Вписываем следующее:
-
-![](screens/9.png)
-
-в следующий кофиг файл:
-
-sudo nano /etc/logstash/conf.d/30-elasticsearch-output.conf
-
-Вписываем следующее:
-
-![](screens/10.png)
+``` properties
+input {
+    beats {
+        port => 5044
+    }
+}
+output {
+  elasticsearch {
+    hosts => ["167.99.242.171:9200"]
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{[@metadata[version]}-%{+YYYY.MM.dd}"
+    user => "broha"
+    password => "123456"
+  }
+}
+```
 
 Проверяем, что всё работает:
 
@@ -155,4 +161,59 @@ sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash 
 sudo systemctl start logstash
 
 sudo systemctl enable logstash
+
+# Установка Filebeat
+
+Переходим на proxy сервер
+
+Прописываем следующие команды для обновления пакетов:
+
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+И устанавливаем Filebeat
+
+sudo apt install filebeat
+
+# Настройка Filebeat
+
+sudo filebeat modules enable system
+
+Затем переходим в конфиг файл:
+
+sudo nano /etc/filebeat/filebeat.yml
+
+вносим следующие изменения:
+
+![](/screens/9.png)
+
+Проверяем конфигурацию следующей командой:
+
+sudo filebeat -e test output
+
+Далее выполняем следующие 3 команды:
+
+```properties
+sudo filebeat setup --pipelines --modules system
+sudo filebeat setup -e --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["167.99.242.171:9200"]' -E 'output.elasticsearch.username="broha"' -E 'output.elasticsearch.password="123456"'
+sudo filebeat setup -e --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["167.99.242.171:9200"]' -E 'output.elasticsearch.username="broha"' -E 'output.elasticsearch.password="123456"' -E setup.kibana.host=167.99.242.171:5601
+```
+
+Запускаем Filebeat
+
+sudo systemctl start filebeat
+
+sudo systemctl enable filebeat
+
+Проверяем работу:
+
+curl -u broha:123456 -XGET 'http://167.99.242.171:9200/filebeat-*/_search?pretty'
+
+
+
+
+
+
+
 
