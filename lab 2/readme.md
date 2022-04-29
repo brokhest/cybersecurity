@@ -94,7 +94,7 @@ sudo systemctl start elasticsearch
 
 sudo systemctl enable elasticsearch
 
-# Уустановка Kibana
+# Установка Kibana
 
 sudo apt install kibana
 
