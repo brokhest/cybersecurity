@@ -186,7 +186,7 @@ sudo nano /etc/filebeat/filebeat.yml
 
 вносим следующие изменения:
 
-![](/screens/9.png)
+![](screens/9.png)
 
 Проверяем конфигурацию следующей командой:
 
