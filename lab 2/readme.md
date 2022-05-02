@@ -211,6 +211,12 @@ sudo systemctl enable filebeat
 curl -u broha:123456 -XGET 'http://167.99.242.171:9200/filebeat-*/_search?pretty'
 
 
+GROK:
+
+pattern1: 
+```
+%{SYSLOGTIMESTAMP} %{WORD:server_name} %{DATA:protocol}: %{GREEDYDATA:desc}
+```
 
 
 
