@@ -213,12 +213,20 @@ curl -u broha:123456 -XGET 'http://167.99.242.171:9200/filebeat-*/_search?pretty
 
 GROK:
 
-pattern1: 
+#Pattern 1: 
 ```
 %{SYSLOGTIMESTAMP} %{WORD:server_name} %{DATA:protocol}: %{GREEDYDATA:desc}
 ```
 
+#Pattern 2:
+```
+%{SYSLOGTIMESTAMP} %{WORD:server_name} %{GREEDYDATA:protocol}: %{GREEDYDATA:desc} from %{IP:src_ip} port %{NUMBER:port} ssh2: RSA SHA256:%{GREEDYDATA:key}
+```
 
+#Pattern 3:
+```
+
+```
 
 
 
