@@ -214,18 +214,80 @@ curl -u broha:123456 -XGET 'http://167.99.242.171:9200/filebeat-*/_search?pretty
 GROK:
 
 #Pattern 1: 
+
+Входное сообщение:
+
+May  2 12:41:40 proxy sshd[50528]: pam_unix(sshd:session): session closed for user root
+
 ```
 %{SYSLOGTIMESTAMP} %{WORD:server_name} %{DATA:protocol}: %{GREEDYDATA:desc}
 ```
+Выход:
+
+```JSON
+{
+  "server_name": "proxy",
+  "protocol": "sshd[50528]",
+  "desc": "pam_unix(sshd:session): session closed for user root"
+}
+```
 
 #Pattern 2:
+
+Входное сообщение:
+
+May 2 12:35:10 proxy sshd[50528]: Accepted publickey for root from 109.126.4.148 port 3103 ssh2: RSA SHA256:121XA1vCtlpyzu1BluUgaCKfxqfeNwV/z6ry0ZeN0s4
+
 ```
 %{SYSLOGTIMESTAMP} %{WORD:server_name} %{GREEDYDATA:protocol}: %{GREEDYDATA:desc} from %{IP:src_ip} port %{NUMBER:port} ssh2: RSA SHA256:%{GREEDYDATA:key}
 ```
 
-#Pattern 3:
+Выход:
+
+```JSON
+{
+  "src_ip": "109.126.4.148",
+  "server_name": "proxy",
+  "protocol": "sshd[50528]",
+  "port": "3103",
+  "key": "121XA1vCtlpyzu1BluUgaCKfxqfeNwV/z6ry0ZeN0s4",
+  "desc": "Accepted publickey for root"
+}
 ```
 
+#Pattern 3:
+
+Входное сообщение:
+
+May  2 13:35:08 proxy kernel: [365572.440039] [UFW BLOCK] IN=eth0 OUT= MAC=d6:11:17:6f:27:3d:fe:00:00:00:01:01:08:00 SRC=185.191.34.200 DST=164.90.163.85 LEN=40 TOS=0x00 PREC=0x00 TTL=249 ID=33106 PROTO=TCP SPT=42458 DPT=4708 WINDOW=1024 RES=0x00 SYN URGP=0 
+
+```
+%{SYSLOGTIMESTAMP} %{WORD:server_name} %{GREEDYDATA:service}: \[%{GREEDYDATA}\] \[UFW BLOCK\] IN=%{WORD:input} OUT=%{GREEDYDATA:output} MAC=%{GREEDYDATA:mac} SRC=%{IP:src_ip} DST=%{IP:dst_ip} LEN=%{NUMBER:len} TOS=%{GREEDYDATA:tos} PREC=%{GREEDYDATA:prec} TTL=%{NUMBER:ttl} ID=%{NUMBER:id} PROTO=%{WORD:protocol} SPT=%{NUMBER:spt} DPT=%{NUMBER:dpt} WINDOW=%{NUMBER:window} RES=%{GREEDYDATA:res} SYN URGP=%{NUMBER:urgp}
+```
+
+Выход:
+
+```JSON
+{
+  "server_name": "proxy",
+  "res": "0x00",
+  "dpt": "4708",
+  "ttl": "249",
+  "mac": "d6:11:17:6f:27:3d:fe:00:00:00:01:01:08:00",
+  "dst_ip": "164.90.163.85",
+  "output": "",
+  "src_ip": "185.191.34.200",
+  "urgp": "0",
+  "input": "eth0",
+  "protocol": "TCP",
+  "len": "40",
+  "prec": "0x00",
+  "service": "kernel",
+  "spt": "42458",
+  "tos": "0x00",
+  "id": "33106",
+  "window": "1024"
+}
 ```
 
 
